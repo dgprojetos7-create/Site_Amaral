@@ -51,6 +51,8 @@ O repositorio agora inclui `railway.toml` com:
 - `startCommand = "npm run start"`
 - healthcheck em `/api/health`
 
+Em producao, `JWT_SECRET` e `ADMIN_SEED_PASSWORD` precisam estar definidos com valores reais no ambiente do deploy ou em `.env.production`. O backend nao usa `.env` como fallback em producao.
+
 Guia detalhado: [docs/DEPLOY_RAILWAY.md](docs/DEPLOY_RAILWAY.md)
 
 ## Guias auxiliares

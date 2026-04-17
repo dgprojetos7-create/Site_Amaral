@@ -48,6 +48,7 @@ npm run dev
 
 ## Observacoes
 
-- O backend le primeiro `.env.development` ou `.env.production` e usa `.env` apenas como fallback.
+- Em desenvolvimento, o backend le `.env.development` e usa `.env` como fallback.
+- Em producao, o backend usa apenas `process.env` da hospedagem ou `.env.production`.
 - O script `npm run db:seed-admin` agora respeita o ambiente atual, o que evita seed incorreto em producao.
 - Nunca envie `.env`, `.env.development` ou `.env.production` com segredos reais para o GitHub.

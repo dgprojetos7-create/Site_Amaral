@@ -31,6 +31,7 @@ ADMIN_SEED_PASSWORD=defina-uma-senha-forte
 ```
 
 Observacao: o Railway injeta `PORT` automaticamente. Em geral voce nao precisa definir esse valor manualmente.
+Observacao: `JWT_SECRET` e `ADMIN_SEED_PASSWORD` precisam ser valores reais. O backend rejeita placeholders de exemplo em producao e nao usa `.env` como fallback quando `NODE_ENV=production`.
 
 ## Passo a passo
 

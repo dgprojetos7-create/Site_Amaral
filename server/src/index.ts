@@ -56,7 +56,9 @@ const server = app.listen(env.port, async () => {
   console.log(`Ambiente: ${env.nodeEnv}`);
   console.log(
     `Arquivos de ambiente carregados: ${
-      env.loadedEnvFiles.length > 0 ? env.loadedEnvFiles.join(', ') : 'nenhum'
+      env.loadedEnvFiles.length > 0
+        ? env.loadedEnvFiles.join(', ')
+        : 'nenhum arquivo .env (usando variaveis do processo/hospedagem)'
     }`,
   );
   console.log(`Banco configurado: ${env.db.user}@${env.db.host}:${env.db.port}/${env.db.database}`);
