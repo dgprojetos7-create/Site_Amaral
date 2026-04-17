@@ -5,6 +5,7 @@ import express from 'express';
 import { pool } from './config/db.js';
 import { env } from './config/env.js';
 import { app } from './app.js';
+import { syncAdminSeedUser } from './services/admin-seed-service.js';
 
 const currentFilePath = fileURLToPath(import.meta.url);
 const currentDirectoryPath = path.dirname(currentFilePath);
@@ -39,6 +40,20 @@ const verifyDatabaseConnection = async () => {
   return { connected: false, attempts: databaseConnectRetries, error: lastError };
 };
 
+const syncAdminSeedOnStartup = async () => {
+  try {
+    const result = await syncAdminSeedUser();
+    const actionLabel = result.action === 'created' ? 'criado' : 'atualizado';
+    console.log(`ADMIN SEED: usuario ${actionLabel} automaticamente para ${result.email}`);
+  } catch (error) {
+    console.error('ADMIN SEED: falha ao sincronizar o administrador configurado no ambiente.');
+    console.debug(
+      'Erro detalhado do admin seed:',
+      error instanceof Error ? error.message : 'Erro desconhecido.',
+    );
+  }
+};
+
 if (fs.existsSync(clientDistPath) && fs.existsSync(clientIndexPath)) {
   app.use(express.static(clientDistPath));
   app.get('/{*path}', (request, response, next) => {
@@ -67,6 +82,7 @@ const server = app.listen(env.port, async () => {
 
   if (databaseStatus.connected) {
     console.log('CONEXAO COM BANCO DE DADOS: OK');
+    await syncAdminSeedOnStartup();
     return;
   }
 

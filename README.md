@@ -43,6 +43,8 @@ O frontend roda em `http://localhost:5174` e a API em `http://localhost:3001`.
 - `npm run db:seed-admin:dev`: forca seed com `NODE_ENV=development`
 - `npm run lint`: valida o codigo com ESLint
 
+Quando o banco esta disponivel, o backend tambem sincroniza automaticamente o usuario admin configurado no ambiente durante a inicializacao.
+
 ## Deploy no Railway
 
 O repositorio agora inclui `railway.toml` com:

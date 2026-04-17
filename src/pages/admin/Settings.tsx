@@ -9,7 +9,7 @@ const cards = [
   },
   {
     title: 'Banco MySQL',
-    description: 'O schema está em server/sql/schema.sql e o admin pode ser criado com npm run db:seed-admin.',
+    description: 'O schema esta em server/sql/schema.sql e o admin e sincronizado na inicializacao do backend, com npm run db:seed-admin como opcao manual.',
     icon: Database,
   },
   {

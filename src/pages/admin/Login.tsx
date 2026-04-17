@@ -73,7 +73,8 @@ const Login: React.FC = () => {
           </Button>
 
           <p style={{ marginTop: 'var(--spacing-md)', fontSize: '0.85rem', color: 'var(--color-gray-light)' }}>
-            Dica: defina `ADMIN_SEED_EMAIL` e `ADMIN_SEED_PASSWORD`, rode o schema MySQL e execute `npm run db:seed-admin`.
+            Dica: defina `ADMIN_SEED_EMAIL` e `ADMIN_SEED_PASSWORD`, reinicie o backend para sincronizar o admin automaticamente
+            ou execute `npm run db:seed-admin`.
           </p>
         </form>
       </div>

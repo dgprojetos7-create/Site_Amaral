@@ -42,6 +42,8 @@ Observacao: `JWT_SECRET` e `ADMIN_SEED_PASSWORD` precisam ser valores reais. O b
 5. Faca o deploy.
 6. Depois do primeiro deploy, execute `npm run db:seed-admin` no servico para criar ou atualizar o administrador.
 
+Observacao pratica: o backend tambem tenta sincronizar automaticamente o admin na inicializacao quando o banco responde, usando `ADMIN_SEED_EMAIL` e `ADMIN_SEED_PASSWORD`.
+
 ## Observacoes operacionais
 
 - O frontend usa `/api` por padrao, entao o deploy monolitico no Railway nao precisa de `VITE_API_BASE_URL`.
