@@ -1,15 +1,16 @@
 @echo off
 SETLOCAL EnableDelayedExpansion
+cd /d "%~dp0..\.."
 
 :: ==============================================================================
 :: Reset Database Script - Site Amaral
 :: ==============================================================================
 
-:: Configuration
 SET DB_HOST=127.0.0.1
 SET DB_PORT=3306
 SET DB_USER=root
 SET DB_NAME=site_amaral_local
+SET SCHEMA_PATH=%CD%\server\sql\schema.sql
 
 echo.
 echo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -24,7 +25,6 @@ if /i "%CONFIRM%" neq "S" (
     exit /b 0
 )
 
-:: Check MySQL Path
 where mysql >nul 2>nul
 if %ERRORLEVEL% neq 0 (
     if exist "C:\laragon\bin\mysql\mysql-8.4.3-winx64\bin\mysql.exe" (
@@ -64,7 +64,7 @@ echo ---------------------------------------------------------
 echo [3/4] Importando estrutura inicial (schema)...
 echo ---------------------------------------------------------
 
-%MYSQL_BIN% -h %DB_HOST% -P %DB_PORT% -u %DB_USER% %DB_NAME% < "server/sql/schema.sql"
+%MYSQL_BIN% -h %DB_HOST% -P %DB_PORT% -u %DB_USER% %DB_NAME% < "%SCHEMA_PATH%"
 if %ERRORLEVEL% neq 0 (
     echo [ERRO] Falha ao importar o schema.
     pause

@@ -5,7 +5,7 @@ import { useAuth } from '../../context/useAuth';
 import Button from '../../components/Button';
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState('admin@niltonamaral.com');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -37,7 +37,7 @@ const Login: React.FC = () => {
 
         <h1 className="text-navy" style={{ marginBottom: '0.5rem' }}>Acesso Restrito</h1>
         <p className="text-muted" style={{ marginBottom: 'var(--spacing-lg)' }}>
-          Entre com o usuario administrador criado no banco MySQL.
+          Entre com o e-mail e a senha do administrador configurados no ambiente.
         </p>
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -73,7 +73,7 @@ const Login: React.FC = () => {
           </Button>
 
           <p style={{ marginTop: 'var(--spacing-md)', fontSize: '0.85rem', color: 'var(--color-gray-light)' }}>
-            Dica: ajuste `.env.development`, rode o schema MySQL e execute `npm run db:seed-admin`.
+            Dica: defina `ADMIN_SEED_EMAIL` e `ADMIN_SEED_PASSWORD`, rode o schema MySQL e execute `npm run db:seed-admin`.
           </p>
         </form>
       </div>

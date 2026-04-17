@@ -16,7 +16,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "cross-env NODE_ENV=production node server/dist/index.js",
-    "db:seed-admin": "cross-env NODE_ENV=development tsx server/scripts/seed-admin.ts",
+    "db:seed-admin": "tsx server/scripts/seed-admin.ts",
+    "db:seed-admin:dev": "cross-env NODE_ENV=development tsx server/scripts/seed-admin.ts",
     "db:init": "echo 'Por favor, execute o arquivo server/sql/schema.sql manualmente no seu MySQL Client (ex: Workbench, HeidiSQL ou terminal: mysql -u root -p < server/sql/schema.sql)'"
   },
   "dependencies": {

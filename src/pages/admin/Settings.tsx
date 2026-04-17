@@ -3,8 +3,8 @@ import { Database, Globe2, ShieldCheck } from 'lucide-react';
 
 const cards = [
   {
-    title: 'Deploy Hostinger',
-    description: 'Use o build do frontend em dist e rode o servidor Express compilado em server/dist com as variáveis de ambiente do MySQL.',
+    title: 'Deploy Railway',
+    description: 'Use o build do frontend em dist, suba o Express compilado em server/dist e configure as variaveis de ambiente do MySQL no Railway.',
     icon: Globe2,
   },
   {

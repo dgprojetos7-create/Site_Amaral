@@ -3,18 +3,23 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const nodeEnv = process.env.NODE_ENV || 'development';
-const envFile = nodeEnv === 'production' ? '.env.production' : '.env.development';
-const baseEnvPath = path.resolve(process.cwd(), '.env');
-const modeEnvPath = path.resolve(process.cwd(), envFile);
 const loadedEnvFiles: string[] = [];
+const defaultJwtSecret = 'change-this-super-secret-key';
+const defaultAdminEmail = 'admin@example.com';
+const defaultAdminPassword = 'change-this-admin-password';
 
-if (fs.existsSync(baseEnvPath)) {
-  dotenv.config({ path: baseEnvPath, quiet: true });
-  loadedEnvFiles.push('.env');
-}
+const envFiles = nodeEnv === 'production'
+  ? ['.env.production', '.env']
+  : ['.env.development', '.env'];
 
-if (fs.existsSync(modeEnvPath)) {
-  dotenv.config({ path: modeEnvPath, override: true, quiet: true });
+for (const envFile of envFiles) {
+  const envFilePath = path.resolve(process.cwd(), envFile);
+
+  if (!fs.existsSync(envFilePath)) {
+    continue;
+  }
+
+  dotenv.config({ path: envFilePath, quiet: true });
   loadedEnvFiles.push(envFile);
 }
 
@@ -40,14 +45,32 @@ export const env = {
     password: process.env.DB_PASSWORD || '',
     database: process.env.DB_NAME || 'site_amaral',
   },
-  jwtSecret: process.env.JWT_SECRET || 'change-this-super-secret-key',
+  jwtSecret: process.env.JWT_SECRET || defaultJwtSecret,
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
   adminSeed: {
     name: process.env.ADMIN_SEED_NAME || 'Administrador',
-    email: process.env.ADMIN_SEED_EMAIL || 'admin@niltonamaral.com',
-    password: process.env.ADMIN_SEED_PASSWORD || 'ChangeMe123!',
+    email: process.env.ADMIN_SEED_EMAIL || defaultAdminEmail,
+    password: process.env.ADMIN_SEED_PASSWORD || defaultAdminPassword,
   },
   loadedEnvFiles,
 };
 
 export const isProduction = env.nodeEnv === 'production';
+
+if (isProduction) {
+  const missingSecureValues: string[] = [];
+
+  if (env.jwtSecret === defaultJwtSecret) {
+    missingSecureValues.push('JWT_SECRET');
+  }
+
+  if (env.adminSeed.password === defaultAdminPassword) {
+    missingSecureValues.push('ADMIN_SEED_PASSWORD');
+  }
+
+  if (missingSecureValues.length > 0) {
+    throw new Error(
+      `Defina valores seguros para ${missingSecureValues.join(', ')} antes de iniciar em producao.`,
+    );
+  }
+}

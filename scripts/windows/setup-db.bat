@@ -1,22 +1,21 @@
 @echo off
 SETLOCAL EnableDelayedExpansion
+cd /d "%~dp0..\.."
 
 :: ==============================================================================
 :: Setup Database Script - Site Amaral (Laragon/Local)
 :: ==============================================================================
 
-:: Configuration
 SET DB_HOST=127.0.0.1
 SET DB_PORT=3306
 SET DB_USER=root
 SET DB_NAME=site_amaral_local
-SET SCHEMA_PATH=server/sql/schema.sql
+SET SCHEMA_PATH=%CD%\server\sql\schema.sql
 
 echo ---------------------------------------------------------
 echo [1/4] Verificando conexao com MySQL...
 echo ---------------------------------------------------------
 
-:: Basic check if mysql is in path
 where mysql >nul 2>nul
 if %ERRORLEVEL% neq 0 (
     echo [AVISO] 'mysql' nao esta no PATH Global. Tentando localizar Laragon...
@@ -24,7 +23,7 @@ if %ERRORLEVEL% neq 0 (
         SET MYSQL_BIN="C:\laragon\bin\mysql\mysql-8.4.3-winx64\bin\mysql.exe"
         echo [OK] MySQL do Laragon encontrado.
     ) else (
-        echo [ERRO] Laragon MySQL nao encontrado em C:\laragon. 
+        echo [ERRO] Laragon MySQL nao encontrado em C:\laragon.
         echo Por favor, adicione o bin do MySQL ao seu PATH ou inicie o Laragon.
         pause
         exit /b 1

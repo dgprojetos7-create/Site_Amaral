@@ -1,110 +1,68 @@
 # Site Amaral
 
-Arquitetura full-stack pronta para publicacao com:
+Aplicacao full-stack pronta para GitHub e deploy no Railway, com frontend React + Vite, API Express e persistencia em MySQL.
 
-- frontend React + Vite
-- painel administrativo em `/admin`
-- backend Node.js + Express
-- persistencia real em MySQL
-- autenticacao administrativa por cookie HTTP-only
+## Stack
+
+- React 18 + Vite
+- Node.js + Express
+- TypeScript no frontend e backend
+- MySQL 8+ ou MariaDB compativel
+- Autenticacao administrativa por cookie HTTP-only
 
 ## Estrutura
 
-- `src/`: frontend publico e painel admin
+- `src/`: site publico e painel `/admin`
 - `server/src/`: API Express
 - `server/sql/schema.sql`: schema inicial do banco
-- `server/dist/`: backend compilado para producao
-- `dist/`: frontend compilado para producao
+- `scripts/windows/`: automacoes locais para Windows
+- `docs/`: guias de setup local e deploy
 
 ## Requisitos
 
-- Node.js 18+
+- Node.js 20.9+ (o projeto declara `>=20.9.0 <25`)
 - MySQL 8+ ou MariaDB compativel
 
-## Configuracao local
+## Setup rapido
 
-1. Copie `.env.example` para `.env`
-2. Ajuste as credenciais do MySQL
-3. Execute o schema:
+1. Instale as dependencias com `npm install`.
+2. Copie `.env.example` para `.env` ou `.env.development`.
+3. Ajuste as variaveis de banco e credenciais do admin.
+4. Execute o schema em `server/sql/schema.sql`.
+5. Rode `npm run db:seed-admin` para criar ou atualizar o administrador.
+6. Inicie com `npm run dev`.
 
-```sql
-SOURCE server/sql/schema.sql;
-```
+O frontend roda em `http://localhost:5174` e a API em `http://localhost:3001`.
 
-4. Crie o usuario admin:
+## Scripts principais
 
-```bash
-npm run db:seed-admin
-```
-
-5. Instale dependencias e rode o ambiente:
-
-```bash
-npm install
-npm run dev
-```
-
-## Scripts
-
-- `npm run dev`: sobe Vite + API Express em paralelo
+- `npm run dev`: sobe Vite e API em paralelo
 - `npm run build`: compila frontend e backend
-- `npm run start`: inicia o backend compilado em `server/dist`
-- `npm run db:seed-admin`: cria/atualiza o usuario admin no MySQL
-- `npm run lint`: valida o codigo
+- `npm run start`: sobe a versao de producao
+- `npm run db:seed-admin`: cria ou atualiza o admin usando o ambiente atual
+- `npm run db:seed-admin:dev`: forca seed com `NODE_ENV=development`
+- `npm run lint`: valida o codigo com ESLint
 
-## Variaveis de ambiente
+## Deploy no Railway
 
-```env
-PORT=3001
-NODE_ENV=development
-CORS_ORIGIN=http://localhost:5173
-JWT_SECRET=change-this-super-secret-key
-JWT_EXPIRES_IN=7d
+O repositorio agora inclui `railway.toml` com:
 
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=root
-DB_PASSWORD=
-DB_NAME=site_amaral
+- `buildCommand = "npm run build"`
+- `startCommand = "npm run start"`
+- healthcheck em `/api/health`
 
-ADMIN_SEED_NAME=Administrador
-ADMIN_SEED_EMAIL=admin@niltonamaral.com
-ADMIN_SEED_PASSWORD=ChangeMe123!
-```
+Guia detalhado: [docs/DEPLOY_RAILWAY.md](docs/DEPLOY_RAILWAY.md)
 
-## Deploy
+## Guias auxiliares
 
-### Fluxo recomendado
+- [docs/LOCAL_SETUP.md](docs/LOCAL_SETUP.md)
+- [docs/DEPLOY_RAILWAY.md](docs/DEPLOY_RAILWAY.md)
 
-1. Configure o MySQL em producao
-2. Rode `server/sql/schema.sql`
-3. Defina as variaveis de ambiente no painel da hospedagem
-4. Execute `npm install`
-5. Execute `npm run build`
-6. Execute `npm run db:seed-admin`
-7. Inicie com `npm run start`
+## Recursos do sistema
 
-O backend Express serve a API em `/api` e entrega o build do frontend em `dist`, incluindo o painel em `/admin`.
-
-## Recursos implementados
-
-- login real do admin com tabela `users`
+- login administrativo real com tabela `users`
 - CRUD completo de livros
 - CRUD completo de artigos
-- CRUD de midia por URL
-- edicao dos textos institucionais do site
-- controle de exibicao para critica, detalhes tecnicos e links de compra
-- links separados para livro fisico e e-book
-- paginas publicas consumindo a API real
-
-## Banco de dados
-
-Tabelas presentes no schema:
-
-- `users`
-- `books`
-- `book_purchase_links`
-- `book_quotes`
-- `articles`
-- `media`
-- `site_sections`
+- gerenciamento de midia por URL
+- edicao de textos institucionais
+- paginas publicas servidas pelo mesmo backend em producao

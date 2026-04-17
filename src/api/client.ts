@@ -30,7 +30,7 @@ export const apiRequest = async <T>(path: string, options: RequestOptions = {}):
       body: options.body === undefined ? undefined : JSON.stringify(options.body),
     });
   } catch {
-    throw new ApiError('Não foi possível conectar ao servidor. Verifique se a API está em execução.', 0);
+    throw new ApiError('Nao foi possivel conectar ao servidor. Verifique se a API esta em execucao.', 0);
   }
 
   if (response.status === 204) {
@@ -44,12 +44,12 @@ export const apiRequest = async <T>(path: string, options: RequestOptions = {}):
     try {
       data = JSON.parse(rawBody) as { error?: string } & T;
     } catch {
-      throw new ApiError('O servidor retornou uma resposta inválida.', response.status);
+      throw new ApiError('O servidor retornou uma resposta invalida.', response.status);
     }
   }
 
   if (!response.ok) {
-    throw new ApiError(data?.error || 'Não foi possível completar a solicitação.', response.status);
+    throw new ApiError(data?.error || 'Nao foi possivel completar a solicitacao.', response.status);
   }
 
   return (data ?? undefined) as T;

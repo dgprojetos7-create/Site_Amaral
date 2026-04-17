@@ -1,24 +1,20 @@
 @echo off
 SETLOCAL EnableDelayedExpansion
+cd /d "%~dp0..\.."
 
 :: ==============================================================================
 :: Backup Database Script - Site Amaral
 :: ==============================================================================
 
-:: Configuration
 SET DB_HOST=127.0.0.1
 SET DB_PORT=3306
 SET DB_USER=root
 SET DB_NAME=site_amaral_local
-SET BACKUP_DIR=database-backups
+SET BACKUP_DIR=%CD%\database-backups
 
-:: Timestamp calculation (YYYY-MM-DD-HHmm)
-for /f "tokens=2 delims==" %%I in ('wmic os get localdatetime /value') do set datetime=%%I
-set TIMESTAMP=%datetime:~0,4%-%datetime:~4,2%-%datetime:~6,2%-%datetime:~8,2%%datetime:~10,2%
-
+for /f %%I in ('powershell -NoProfile -Command "Get-Date -Format yyyy-MM-dd-HHmmss"') do set TIMESTAMP=%%I
 SET FILENAME=%BACKUP_DIR%\backup-%TIMESTAMP%.sql
 
-:: Check mysqldump Path
 where mysqldump >nul 2>nul
 if %ERRORLEVEL% neq 0 (
     if exist "C:\laragon\bin\mysql\mysql-8.4.3-winx64\bin\mysqldump.exe" (
@@ -37,7 +33,6 @@ echo Iniciando backup do banco: %DB_NAME%
 echo Destino: %FILENAME%
 echo ---------------------------------------------------------
 
-:: Create dir if missing (safety check)
 if not exist "%BACKUP_DIR%" mkdir "%BACKUP_DIR%"
 
 %DUMP_BIN% -h %DB_HOST% -P %DB_PORT% -u %DB_USER% %DB_NAME% > "%FILENAME%"
