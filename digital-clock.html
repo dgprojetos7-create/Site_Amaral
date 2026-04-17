@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Digital Clock</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .clock {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .time-zone {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="clock" id="clock"></div>
+    <div class="time-zone" id="time-zones"></div>
+
+    <script>
+        const timeZones = [
+            { name: 'UTC', offset: 0 },
+            { name: 'EST', offset: -5 },
+            { name: 'CST', offset: -6 },
+            { name: 'MST', offset: -7 },
+            { name: 'PST', offset: -8 },
+            { name: 'CET', offset: 1 },
+            { name: 'IST', offset: 5.5 }
+        ];
+
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').innerHTML = now.toUTCString();
+
+            const timeZoneDiv = timeZones.map(zone => {
+                const localTime = new Date(now.getTime() + zone.offset * 3600 * 1000);
+                return `<div>${zone.name}: ${localTime.toLocaleTimeString()}</div>`;
+            }).join('');
+            document.getElementById('time-zones').innerHTML = timeZoneDiv;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>
