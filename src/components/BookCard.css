@@ -1,0 +1,55 @@
+.book-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  height: 100%;
+  background: var(--color-bg-card);
+}
+
+.book-card:hover .book-title {
+  color: var(--color-gold);
+}
+
+.book-cover-container {
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  background-color: #eee; /* placeholder background */
+}
+
+.book-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.book-card:hover .book-cover {
+  transform: scale(1.05);
+}
+
+.book-info {
+  padding: var(--spacing-sm);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.book-year {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.book-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.25rem;
+  transition: color 0.3s ease;
+}
+
+.book-subtitle {
+  font-size: 0.95rem;
+  font-weight: 400;
+  font-family: var(--font-primary);
+  margin-bottom: 0;
+  color: var(--color-gray-light);
+}
