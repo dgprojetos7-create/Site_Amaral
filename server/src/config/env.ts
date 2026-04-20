@@ -84,12 +84,12 @@ export const env = {
     password: readEnvString('DB_PASSWORD') || '',
     database: readEnvString('DB_NAME') || 'site_amaral',
   },
-  jwtSecret: readEnvString('JWT_SECRET') || (isProductionEnvironment ? '' : defaultJwtSecret),
+  jwtSecret: readEnvString('JWT_SECRET') || defaultJwtSecret,
   jwtExpiresIn: readEnvString('JWT_EXPIRES_IN') || '7d',
   adminSeed: {
     name: readEnvString('ADMIN_SEED_NAME') || 'Administrador',
     email: readEnvString('ADMIN_SEED_EMAIL') || defaultAdminEmail,
-    password: readEnvString('ADMIN_SEED_PASSWORD') || (isProductionEnvironment ? '' : defaultAdminPassword),
+    password: readEnvString('ADMIN_SEED_PASSWORD') || defaultAdminPassword,
   },
   loadedEnvFiles,
 };
